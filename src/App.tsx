@@ -1,10 +1,10 @@
-
+import Navbar from "./Navbar"
+import PrayerTime from "./PrayerTime"
 function App() {
-
-
   return (
     <>
-    <div className="text-2xl bg-blue-50">hii</div>
+        <Navbar />
+      {/* <PrayerTime/> */}
     </>
  
   )
