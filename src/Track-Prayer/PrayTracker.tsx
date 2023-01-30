@@ -12,8 +12,8 @@ export default function Main() {
           <div className="flex items-center text-3xl text-center py-5 w-4/5 justify-center m-auto bg-slate border-b ">
             Track your prayers
           </div>
-          <p className="text-sm ml-16 lg:ml-36 mt-3">Welcome back, {user?.displayName}</p>
-          <div className="flex">
+          <p className="text-sm ml-16 p-5 lg:ml-36 mt-3">Welcome back, {user?.displayName}</p>
+          <div className="flex flex-wrap justify-center">
             <AddRecord />
             <ShowRecord />
           </div>

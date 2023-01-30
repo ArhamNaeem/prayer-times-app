@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
-
 export default function AddRecord() {
       const [showModal, setShowModal] = useState(false);
-    const [prayerCount, setPrayerCount] = useState(0);
-     const addRecord = () => {};
+  const [prayerCount, setPrayerCount] = useState(0);
+  const date = Date().slice(0, 15);
+  const addRecord = () => {
+    setPrayerCount(0)
+     };
 
   return (
   <>
         <div className="mt-5">
           <button
-            className=" border  text-white active:bg-slate-700 font-bold uppercase text-sm p-3 rounded-sm shadow hover:shadow-lg outline-none focus:outline-none ml-5 mt-2 ease-linear transition-all duration-150 "
+          className=" border w-72 h-36 text-white active:bg-slate-700 font-bold uppercase text-2xl p-3 rounded-sm shadow hover:shadow-lg outline-none focus:outline-none ml-5 mt-16 lg:mt-24 ease-linear transition-all duration-150 "
             type="button"
             onClick={() => setShowModal(true)}
           >
@@ -22,7 +24,7 @@ export default function AddRecord() {
                   <div className="border-1 rounded-lg shadow-lg relative flex flex-col backdrop-blur-lg outline-none focus:outline-none border">
                     <div className="p-5">
                       <div className="border-b mb-6 text-lg font-semibold w-96">
-                        {Date().slice(0, 15)}
+                        {date}
                       </div>
                       <div className="text-lg  my-2 ">
                         <input
@@ -112,7 +114,7 @@ export default function AddRecord() {
                       <button
                         className="border text-white active:bg-slate-900 font-bold uppercase text-sm p-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
-                        onClick={() => setShowModal(false)}
+                      onClick={() => { setPrayerCount(0); setShowModal(false)}}
                       >
                         Cancel
                       </button>
