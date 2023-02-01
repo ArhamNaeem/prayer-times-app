@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { auth } from '../config/firebase'; 
+import { getDocs, collection, query,where } from 'firebase/firestore';
 export default function ShowRecord() {
   const [showModal, setShowModal] = useState(false);
   const date = Date().slice(0, 15);
@@ -21,19 +23,12 @@ export default function ShowRecord() {
                     <div className="border-b mb-6 text-lg font-semibold w-96">
                       {date}
                     </div>
-                    <div className="text-lg  my-2 ">records</div>
+                    <div className="text-lg  my-2 ">
+                      records
+                    </div>
+                
                     <button
-                      className="border text-white active:bg-slate-900 font-bold uppercase text-sm p-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                      type="button"
-                      onClick={() => {
-                        setShowModal(false);
-                        // addRecord();
-                      }}
-                    >
-                      Show records
-                    </button>
-                    <button
-                      className="border text-white active:bg-slate-900 font-bold uppercase text-sm p-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      className=" border text-white active:bg-slate-900 font-bold uppercase text-sm p-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => setShowModal(false)}
                     >

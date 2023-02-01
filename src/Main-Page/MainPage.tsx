@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from './Navbar'
 import PrayerTime from './PrayerTime'
 
 export default function MainPage() {
+
   return (
     <>
       <div className="h-screen">
-          <Navbar />     
-        <PrayerTime />
-       </div> 
+        <Navbar />     
+        <PrayerTime /> 
+      </div>
     </>
-  )
+  );
 }
