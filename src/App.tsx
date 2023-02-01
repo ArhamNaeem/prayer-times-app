@@ -7,7 +7,6 @@ function App() {
   const client = new QueryClient();
   return (
     <>
-      {/* <div className="h-screen"> */}
         <QueryClientProvider client={client}>
           <Router>
             <Routes>
@@ -16,7 +15,6 @@ function App() {
             </Routes>
           </Router>
         </QueryClientProvider>
-      {/* </div> */}
     </>
   );
 }

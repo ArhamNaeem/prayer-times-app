@@ -16,7 +16,8 @@ export default function Navbar() {
   }
   const signInWithFacebook = async () => {
     try {
-      await signInWithPopup(auth, facebookProvider)
+      await signInWithPopup(auth, facebookProvider);
+      navigate("/track-prayer");
     } catch (e) {
       console.log('Error')
     }

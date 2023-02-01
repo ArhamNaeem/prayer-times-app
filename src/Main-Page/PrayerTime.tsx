@@ -1,43 +1,42 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import Axios from 'axios'
+import React, { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import Axios from "axios";
 export default function PrayerTime() {
-  const [place,setPlace] = useState('London')
-  const actualPlace = useRef("london")
-   const [link, setLink] = useState(
-     "https://muslimsalat.p.rapidapi.com/london.json"
-   );
- const options = {
-   method: "GET",
-   url: link,
-   headers: {
-     "X-RapidAPI-Key": "e4dc96987amsh59592396d8737d5p14a628jsn28eebe89c2aa",
-     "X-RapidAPI-Host": "muslimsalat.p.rapidapi.com",
-   },
- };
+  const [place, setPlace] = useState("London");
+  const actualPlace = useRef("london");
+  const [link, setLink] = useState(
+    "https://muslimsalat.p.rapidapi.com/london.json"
+  );
+  const options = {
+    method: "GET",
+    url: link,
+    headers: {
+      "X-RapidAPI-Key": "e4dc96987amsh59592396d8737d5p14a628jsn28eebe89c2aa",
+      "X-RapidAPI-Host": "muslimsalat.p.rapidapi.com",
+    },
+  };
 
-    useEffect(() => {
+  useEffect(() => {
     refetch();
   }, [link]);
-  
-    const { data,refetch, isLoading, isError } = useQuery(["time",link], () => {
-      return Axios.request(
-        options
-      ).then((res) => res.data);
-    });
-    // const [fajr, setFajr] = useState("");
+
+  const { data, refetch, isLoading, isError } = useQuery(["time", link], () => {
+    return Axios.request(options).then((res) => res.data);
+  });
+  // const [fajr, setFajr] = useState("");
   const fajr = data?.items[0]["fajr"];
-    const dhuhr = data?.items[0]["dhuhr"];
-    const asr = data?.items[0]["asr"];
-    const maghrib = data?.items[0]["maghrib"];
-    const isha = data?.items[0]["isha"];
+  const dhuhr = data?.items[0]["dhuhr"];
+  const asr = data?.items[0]["asr"];
+  const maghrib = data?.items[0]["maghrib"];
+  const isha = data?.items[0]["isha"];
   const currWeather = data?.today_weather.temperature;
 
   const refetchAPI = async () => {
     const tempStr = actualPlace.current;
-    const str = tempStr[0].toUpperCase() + tempStr.slice(1)
-    setPlace(str); setLink(`https://muslimsalat.p.rapidapi.com/${actualPlace.current}.json`)
-  }
+    const str = tempStr[0].toUpperCase() + tempStr.slice(1);
+    setPlace(str);
+    setLink(`https://muslimsalat.p.rapidapi.com/${actualPlace.current}.json`);
+  };
 
   return (
     <>
@@ -77,7 +76,9 @@ export default function PrayerTime() {
             </>
           )}
         </div>
-        <p className="text-right text-sm mt-4 mr-4 lg:mr-36">Current temperature ~{currWeather} C</p>
+        <p className="text-right text-sm mt-4 mr-4 lg:mr-36">
+          Current temperature ~{currWeather} C
+        </p>
       </div>
     </>
   );

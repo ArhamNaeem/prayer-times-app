@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react';
+import { db } from '../config/firebase';
+import { collection, addDoc } from 'firebase/firestore';
 export default function AddRecord() {
       const [showModal, setShowModal] = useState(false);
   const [prayerCount, setPrayerCount] = useState(0);
+  const prayed = useRef([""]);
   const date = Date().slice(0, 15);
-  const addRecord = () => {
+  const colRef = collection(db,'user-prayer-data')
+  const addRecord =async () => {
     setPrayerCount(0)
      };
 
@@ -11,7 +15,7 @@ export default function AddRecord() {
   <>
         <div className="mt-5">
           <button
-          className=" border w-72 h-36 text-white active:bg-slate-700 font-bold uppercase text-2xl p-3 rounded-sm shadow hover:shadow-lg outline-none focus:outline-none ml-5 mt-16 lg:mt-24 ease-linear transition-all duration-150 "
+          className=" border w-72 h-36 text-white active:bg-slate-700 font-bold uppercase text-2xl p-3 rounded-sm shadow hover:shadow-lg outline-none focus:outline-none ml-5 mt-4 sm:mt-16 lg:mt-24 ease-linear transition-all duration-150 "
             type="button"
             onClick={() => setShowModal(true)}
           >
@@ -32,10 +36,14 @@ export default function AddRecord() {
                           id="_fajr"
                           type="checkbox"
                           name="fajr"
-                          onChange={(e) =>
-                            e.target.checked
-                              ? setPrayerCount(prayerCount + 1)
-                              : setPrayerCount(prayerCount - 1)
+                        onChange={(e) =>
+                          e.target.checked
+                            ?
+                
+                           setPrayerCount(prayerCount + 1)                
+                               :     
+                              setPrayerCount(prayerCount - 1)
+                            
                           }
                         />
                         <label htmlFor="_fajr">Fajr</label>
