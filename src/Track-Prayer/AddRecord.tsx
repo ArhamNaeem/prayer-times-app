@@ -26,7 +26,7 @@ export default function AddRecord() {
         const querytodelete = query(colRef, where('id', '==', currUser?.uid), where('date', '==', date))
         const docref = await getDocs(querytodelete)
         const deletedoc = await doc(db, 'user-prayer-data', docref.docs[0].id)
-        // console.log(docref.docs)
+   
         await deleteDoc(deletedoc)
       
       } catch (e) {
