@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react'
-import { auth,db } from '../config/firebase'; 
-import { getDocs, collection, query,where, doc } from 'firebase/firestore';
+import React, { useEffect, useRef, useState } from "react";
+import { auth, db } from "../config/firebase";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { getDocs, collection, query, where, doc } from "firebase/firestore";
 export default function ShowRecord() {
-  interface docType{
+  interface docType {
     id: string;
     date: string;
     fajr: boolean;
@@ -12,34 +13,38 @@ export default function ShowRecord() {
     esha: boolean;
   }
   const date = Date().slice(0, 15);
-  const user = auth.currentUser;
-  //TODO: make it a state
-  const [data, setData] = useState<{}>();
-  const colRef = collection(db,'user-prayer-data')
+  const [user ] = useAuthState(auth)
+  const [data, setData] = useState<docType[]>([]);
+  const colRef = collection(db, "user-prayer-data");
   const [showModal, setShowModal] = useState(false);
 
-  const getRecords =async () => {
-  const querytoget = query(
-    colRef,
-    where("id", "==", user?.uid),
-    );
+  const getRecords = async () => {
+    const querytoget = query(colRef, where("id", "==", user?.uid));
     const documents = await getDocs(querytoget);
-    documents.docs.map((doc) => {
-      setData({
-        // ...data,
+    const newData = documents.docs.map((doc) => {
+      return {
         id: doc.id,
         date: doc.data().date,
         fajr: doc.data().fajr,
         dhuhr: doc.data().dhuhr,
         asr: doc.data().asr,
         maghrib: doc.data().maghrib,
-        esha: doc.data().esha
-   })
-    })
-    // console.log(data)
-}
+        esha: doc.data().esha,
+      };
+    });
 
-getRecords()
+    if (JSON.stringify(data) !== JSON.stringify([...newData])) {
+      setData([...newData]);
+    }
+  };
+
+//TODO: enable it to update data whenever new record added/modified
+  useEffect(() => {
+    getRecords();
+    // console.log(data)
+  });
+
+  // getRecords()
   return (
     <>
       <div className="mt-5">
@@ -56,13 +61,23 @@ getRecords()
               <div className="relative w-auto my-6 mx-auto max-w-3xl ">
                 <div className="border-1 rounded-lg shadow-lg relative flex flex-col backdrop-blur-lg outline-none focus:outline-none border">
                   <div className="p-5">
-                    <div className="border-b mb-6 text-lg font-semibold w-96">
-                      {date}
+                    <div className="border-b pb-2 text-lg font-semibold w-96">
+                      Prayer details
                     </div>
                     <div className="text-lg  my-2 ">
-                      records
+                      {data.length == 0 ?
+                        <p className="p-10 text-xl text-center font-semibold">Not record found!</p>
+                        : <textarea
+                        className="w-full p-2 h-96 resize-none bg-transparent outline-none"
+                        readOnly
+                        value={
+                          data.map((record) =>
+                            `Record date: ${record.date}\nFajr: ${record.fajr ? 'Prayed' : 'Not prayed'}\nDhuhr: ${record.dhuhr ? 'Prayed' : 'Not prayed'}\nAsr: ${record.asr ? 'Prayed' : 'Not prayed'}\nMaghrib: ${record.maghrib ? 'Prayed' : 'Not prayed'}\nEsha: ${record.esha ? 'Prayed' : 'Not prayed'}\n_________________________________________\n`
+                          ).join("")
+                        }
+                      />}
                     </div>
-                
+
                     <button
                       className=" border text-white active:bg-slate-900 font-bold uppercase text-sm p-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"

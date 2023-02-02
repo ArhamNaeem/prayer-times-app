@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { db, auth } from '../config/firebase';
-import { collection, addDoc, deleteDoc,doc ,query,where, getDocs} from 'firebase/firestore';
+import { collection, addDoc, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import ShowRecord from './ShowRecord';
 export default function AddRecord() {
 
   const [showModal, setShowModal] = useState(false);
@@ -13,7 +15,7 @@ export default function AddRecord() {
   const esha = useRef(false)
   const [showPopup, setShowPopup] = useState(false);
   const date = Date().slice(0, 15);
-  const currUser = auth.currentUser;
+  const [user] = useAuthState(auth);
   const colRef = collection(db,'user-prayer-data')
   const addRecord = async () => {
      setPrayerCount(0);
@@ -23,7 +25,7 @@ export default function AddRecord() {
     // if the document already exist
     try {
       try {
-        const querytodelete = query(colRef, where('id', '==', currUser?.uid), where('date', '==', date))
+        const querytodelete = query(colRef, where('id', '==', user?.uid), where('date', '==', date))
         const docref = await getDocs(querytodelete)
         const deletedoc = await doc(db, 'user-prayer-data', docref.docs[0].id)
    
@@ -33,7 +35,7 @@ export default function AddRecord() {
       catch (e){}
       
       await addDoc(colRef, {
-        id: currUser?.uid,
+        id: user?.uid,
         date: date,
         fajr: fajr.current,
         dhuhr: dhuhr.current,
@@ -42,6 +44,8 @@ export default function AddRecord() {
         esha: esha.current,
       });
       fajr.current = dhuhr.current = asr.current = maghrib.current = esha.current = false;
+    <ShowRecord/>
+
      
     } catch (e) {
       console.log(
@@ -51,6 +55,8 @@ export default function AddRecord() {
      };
 
   useEffect(() => {
+
+
     setTimeout(() => {
       setShowPopup(false);
     }, 1000);
