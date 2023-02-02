@@ -11,7 +11,7 @@ export default function AddRecord() {
   const asr = useRef(false);
   const maghrib = useRef(false)
   const esha = useRef(false)
-    const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const date = Date().slice(0, 15);
   const currUser = auth.currentUser;
   const colRef = collection(db,'user-prayer-data')
@@ -29,10 +29,8 @@ export default function AddRecord() {
    
         await deleteDoc(deletedoc)
       
-      } catch (e) {
-       console.log('error')
       }
- 
+      catch (e){}
       
       await addDoc(colRef, {
         id: currUser?.uid,

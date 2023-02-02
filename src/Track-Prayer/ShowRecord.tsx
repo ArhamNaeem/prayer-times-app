@@ -2,10 +2,19 @@ import React, { useRef, useState } from 'react'
 import { auth,db } from '../config/firebase'; 
 import { getDocs, collection, query,where, doc } from 'firebase/firestore';
 export default function ShowRecord() {
+  interface docType{
+    id: string;
+    date: string;
+    fajr: boolean;
+    dhuhr: boolean;
+    asr: boolean;
+    maghrib: boolean;
+    esha: boolean;
+  }
   const date = Date().slice(0, 15);
   const user = auth.currentUser;
   //TODO: make it a state
-  const data = useRef<{}>();
+  const [data, setData] = useState<{}>();
   const colRef = collection(db,'user-prayer-data')
   const [showModal, setShowModal] = useState(false);
 
@@ -16,7 +25,8 @@ export default function ShowRecord() {
     );
     const documents = await getDocs(querytoget);
     documents.docs.map((doc) => {
-      data.current.push({
+      setData({
+        // ...data,
         id: doc.id,
         date: doc.data().date,
         fajr: doc.data().fajr,
@@ -26,7 +36,7 @@ export default function ShowRecord() {
         esha: doc.data().esha
    })
     })
-    console.log(data)
+    // console.log(data)
 }
 
 getRecords()
