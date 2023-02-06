@@ -38,10 +38,8 @@ export default function ShowRecord() {
     }
   };
 
-//TODO: enable it to update data whenever new record added/modified
   useEffect(() => {
     getRecords();
-    // console.log(data)
   });
 
   // getRecords()

@@ -47,16 +47,10 @@ export default function AddRecord() {
     <ShowRecord/>
 
      
-    } catch (e) {
-      console.log(
-      'error'
-      )
-    } 
+    } catch (e){} 
      };
 
   useEffect(() => {
-
-
     setTimeout(() => {
       setShowPopup(false);
     }, 1000);
